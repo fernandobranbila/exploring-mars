@@ -23,7 +23,7 @@ public class SavePlanet implements SavePlanetInbound {
     @Override
     public Planet execute(Planet planet) {
         if (findPlanetByNameOutbound.execute(planet.getName()) != null) {
-          throw new UnprocessableEntityException("planet.already-exists");
+          throw new UnprocessableEntityException("Planet with same name already exists");
         }
         return savePlanetOutbound.execute(planet);
     }

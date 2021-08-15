@@ -20,9 +20,7 @@ public class PlanetController {
     @PostMapping
     public PlanetDtoResponse save(@Valid @RequestBody PlanetDtoRequest planetDtoRequest) {
         return PlanetDtoResponse.fromDomain(
-                savePlanetInbound.execute(
-                        planetDtoRequest.toDomain()
-                )
+                savePlanetInbound.execute(planetDtoRequest.toDomain())
         );
     }
 
