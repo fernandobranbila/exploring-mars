@@ -2,7 +2,7 @@ package br.com.mars.exploringmars.domain.planet.gateway.outbound;
 
 import br.com.mars.exploringmars.domain.planet.model.Planet;
 
-public interface SavePlanetOutbound {
+public interface FindPlanetByNameOutbound {
 
-    Planet execute(Planet planet);
+    Planet execute(String name);
 }
