@@ -6,8 +6,6 @@ import br.com.mars.exploringmars.domain.planet.gateway.inbound.SavePlanetInbound
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("/planets")
 public class PlanetController {
