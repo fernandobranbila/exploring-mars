@@ -1,7 +1,7 @@
 package br.com.mars.exploringmars.application.planet.entrypoint;
 
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlanetDtoResponse;
-import br.com.mars.exploringmars.utils.MockUtils;
+import br.com.mars.exploringmars.application.utils.MockUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

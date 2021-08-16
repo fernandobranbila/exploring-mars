@@ -1,4 +1,4 @@
-package br.com.mars.exploringmars.utils;
+package br.com.mars.exploringmars.application.utils;
 
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlanetDtoRequest;
 
