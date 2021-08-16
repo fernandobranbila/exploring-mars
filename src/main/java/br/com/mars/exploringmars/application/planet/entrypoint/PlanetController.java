@@ -3,6 +3,7 @@ package br.com.mars.exploringmars.application.planet.entrypoint;
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlanetDtoRequest;
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlanetDtoResponse;
 import br.com.mars.exploringmars.domain.planet.gateway.inbound.SavePlanetInbound;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +19,8 @@ public class PlanetController {
     }
 
     @PostMapping
-    public PlanetDtoResponse save(@Valid @RequestBody PlanetDtoRequest planetDtoRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PlanetDtoResponse save(@RequestBody PlanetDtoRequest planetDtoRequest) {
         return PlanetDtoResponse.fromDomain(
                 savePlanetInbound.execute(planetDtoRequest.toDomain())
         );

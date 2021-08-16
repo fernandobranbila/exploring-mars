@@ -4,13 +4,16 @@ import br.com.mars.exploringmars.domain.planet.model.Planet;
 
 public class PlanetDtoResponse {
 
-    private final Long id;
+    private Long id;
 
-    private final String name;
+    private String name;
 
     public PlanetDtoResponse(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public PlanetDtoResponse() {
     }
 
     public static PlanetDtoResponse fromDomain(Planet planet) {

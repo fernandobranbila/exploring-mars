@@ -1,19 +1,27 @@
 package br.com.mars.exploringmars.application.planet.entrypoint.domain;
 
 import br.com.mars.exploringmars.domain.planet.model.Planet;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializable;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 public class PlanetDtoRequest {
 
-    private final Long id;
+    public Long id;
 
-    @NotNull
-    private final String name;
+    public String name;
 
-    public PlanetDtoRequest(Long id, String name, Integer xSize, Integer ySize) {
+    public PlanetDtoRequest(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public PlanetDtoRequest() {
     }
 
     public Planet toDomain() {
