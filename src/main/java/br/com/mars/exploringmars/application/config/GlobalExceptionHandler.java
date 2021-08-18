@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({UnprocessableEntityException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity unprocessableEntityException(GenericCodeException e){
         return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
     }
