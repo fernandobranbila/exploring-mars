@@ -12,10 +12,8 @@ public class PlateauDtoRequest {
 
     public String name;
 
-    @Min(0)
     public Integer xSize;
 
-    @Min(0)
     public Integer ySize;
 
     public PlateauDtoRequest(Long id, Long planetId, String name, Integer xSize, Integer ySize) {

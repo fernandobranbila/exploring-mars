@@ -3,7 +3,7 @@ package br.com.mars.exploringmars.domain.planet.usecase;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.FindPlanetByNameOutbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.SavePlanetOutbound;
 import br.com.mars.exploringmars.domain.planet.model.Planet;
-import br.com.mars.exploringmars.domain.planet.utils.MockUtil;
+import br.com.mars.exploringmars.domain.planet.utils.MockUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -26,7 +26,7 @@ class SavePlanetTest {
     public void saveSuccess(){
         var name = "test";
         var expectedId = 1L;
-        var planet = MockUtil.createPlanet(expectedId, name);
+        var planet = MockUtils.createPlanet(expectedId, name);
         var expectedResult = new Planet(1L, planet.getName());
         when(findPlanetByNameOutbound.execute(name)).thenReturn(null);
         when(savePlanetOutbound.execute(planet)).thenReturn(expectedResult);
