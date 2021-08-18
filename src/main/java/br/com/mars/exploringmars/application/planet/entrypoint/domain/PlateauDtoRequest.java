@@ -3,6 +3,7 @@ package br.com.mars.exploringmars.application.planet.entrypoint.domain;
 import br.com.mars.exploringmars.domain.planet.model.Plateau;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class PlateauDtoRequest {
 
@@ -10,10 +11,13 @@ public class PlateauDtoRequest {
 
     public Long planetId;
 
+    @NotNull
     public String name;
 
+    @NotNull
     public Integer xSize;
 
+    @NotNull
     public Integer ySize;
 
     public PlateauDtoRequest(Long id, Long planetId, String name, Integer xSize, Integer ySize) {
