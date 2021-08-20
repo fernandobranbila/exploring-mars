@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({Exception.class, IllegalStateException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity exception(GenericCodeException e){
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

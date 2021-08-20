@@ -2,6 +2,8 @@ package br.com.mars.exploringmars.application.utils;
 
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlanetDtoRequest;
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlateauDtoRequest;
+import br.com.mars.exploringmars.application.planet.entrypoint.domain.RoverDtoRequest;
+import br.com.mars.exploringmars.domain.planet.model.FacingSide;
 
 public class MockUtils {
 
@@ -29,6 +31,24 @@ public class MockUtils {
                 name,
                 xPosition,
                 yPosition
+        );
+    }
+
+    public static RoverDtoRequest createRoverDtoRequest(
+            Long id,
+            Long plateauId,
+            String name,
+            Integer xPosition,
+            Integer yPosition,
+            FacingSide facingSide
+    ) {
+        return new RoverDtoRequest(
+                id,
+                plateauId,
+                name,
+                xPosition,
+                yPosition,
+                facingSide.toString()
         );
     }
 

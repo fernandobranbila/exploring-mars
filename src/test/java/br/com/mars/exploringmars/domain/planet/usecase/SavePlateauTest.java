@@ -37,7 +37,7 @@ class SavePlateauTest {
 
         when(savePlateauOutbound.execute(planetId, plateau)).thenReturn(
                 new Plateau(
-                        1L,
+                        plateauExpectedId,
                         planetId,
                         plateauName,
                         xSize,
@@ -55,7 +55,6 @@ class SavePlateauTest {
     public void savePlateauFailDueInvalidSize() {
         var planetId = 1L;
         var plateauId = 1L;
-        var plateauExpectedId = 1L;
         var plateauName = "plateau test";
         var xSize = -1;
         var ySize = 1;

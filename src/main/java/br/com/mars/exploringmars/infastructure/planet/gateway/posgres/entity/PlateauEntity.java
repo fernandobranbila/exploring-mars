@@ -51,4 +51,23 @@ public class PlateauEntity {
         );
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Long getPlanetId() {
+        return planetId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getxSize() {
+        return xSize;
+    }
+
+    public Integer getySize() {
+        return ySize;
+    }
 }
