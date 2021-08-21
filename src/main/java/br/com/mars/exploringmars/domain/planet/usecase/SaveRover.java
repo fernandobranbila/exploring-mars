@@ -32,7 +32,6 @@ public class SaveRover implements SaveRoverInbound {
                 rover.getXPosition(),
                 rover.getYPosition()
         ) != null){
-            System.out.println("a");
             throw new UnprocessableEntityException("There's already a rover on this place");
         }
 
