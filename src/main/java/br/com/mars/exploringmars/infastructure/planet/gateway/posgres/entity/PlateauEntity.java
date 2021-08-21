@@ -36,8 +36,8 @@ public class PlateauEntity {
                 plateau.getId(),
                 planetId,
                 plateau.getName(),
-                plateau.getXPosition(),
-                plateau.getYPosition()
+                plateau.getXSize(),
+                plateau.getYSize()
         );
     }
 

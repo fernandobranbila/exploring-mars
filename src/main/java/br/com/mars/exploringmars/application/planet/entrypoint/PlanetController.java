@@ -1,6 +1,7 @@
 package br.com.mars.exploringmars.application.planet.entrypoint;
 
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.*;
+import br.com.mars.exploringmars.domain.planet.gateway.inbound.MoveRoverInbound;
 import br.com.mars.exploringmars.domain.planet.gateway.inbound.SavePlanetInbound;
 import br.com.mars.exploringmars.domain.planet.gateway.inbound.SavePlateauInbound;
 import br.com.mars.exploringmars.domain.planet.gateway.inbound.SaveRoverInbound;
@@ -19,10 +20,13 @@ public class PlanetController {
 
     private final SaveRoverInbound saveRoverInbound;
 
-    public PlanetController(SavePlanetInbound savePlanetInbound, SavePlateauInbound savePlateauInbound, SaveRoverInbound saveRoverInbound) {
+    private final MoveRoverInbound moveRoverInbound;
+
+    public PlanetController(SavePlanetInbound savePlanetInbound, SavePlateauInbound savePlateauInbound, SaveRoverInbound saveRoverInbound, MoveRoverInbound moveRoverInbound) {
         this.savePlanetInbound = savePlanetInbound;
         this.savePlateauInbound = savePlateauInbound;
         this.saveRoverInbound = saveRoverInbound;
+        this.moveRoverInbound = moveRoverInbound;
     }
 
     @PostMapping
@@ -53,6 +57,18 @@ public class PlanetController {
     ) {
         return RoverDtoResponse.fromDomain(
                 saveRoverInbound.execute(plateauId, roverDtoRequest.toDomain())
+        );
+    }
+
+    @PatchMapping(value = "/{planetId}/plateaus/{plateauId}/rovers/{roverId}/positions")
+    public RoverDtoResponse moveRover(
+            @PathVariable Long planetId,
+            @PathVariable Long plateauId,
+            @PathVariable Long roverId,
+            @Valid @RequestBody RoverInstructionsDtoRequest roverInstructionsDtoRequest
+    ) {
+        return RoverDtoResponse.fromDomain(
+                moveRoverInbound.execute(planetId, plateauId, roverId, roverInstructionsDtoRequest.getInstructions())
         );
     }
 

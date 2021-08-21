@@ -15,18 +15,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({Exception.class, IllegalStateException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity exception(GenericCodeException e){
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(e.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({UnprocessableEntityException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity unprocessableEntityException(GenericCodeException e){
-        return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity(e.getCode(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler({BadRequestException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity badRequestException(GenericCodeException e){
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(e.getCode(), HttpStatus.BAD_REQUEST);
     }
 }

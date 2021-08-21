@@ -30,11 +30,11 @@ public class Plateau {
         return name;
     }
 
-    public Integer getXPosition() {
+    public Integer getXSize() {
         return xSize;
     }
 
-    public Integer getYPosition() {
+    public Integer getYSize() {
         return ySize;
     }
 }

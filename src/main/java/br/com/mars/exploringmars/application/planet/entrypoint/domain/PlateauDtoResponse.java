@@ -30,8 +30,8 @@ public class PlateauDtoResponse {
                 plateau.getId(),
                 plateau.getPlanetId(),
                 plateau.getName(),
-                plateau.getXPosition(),
-                plateau.getYPosition()
+                plateau.getXSize(),
+                plateau.getYSize()
         );
     }
 

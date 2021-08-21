@@ -57,4 +57,15 @@ public class RoverEntity {
                 rover.getFacingSide()
         );
     }
+
+    public static RoverEntity fromDomainForUpdate(Rover rover){
+        return new RoverEntity(
+                rover.getId(),
+                rover.getPlateauId(),
+                rover.getName(),
+                rover.getXPosition(),
+                rover.getYPosition(),
+                rover.getFacingSide()
+        );
+    }
 }

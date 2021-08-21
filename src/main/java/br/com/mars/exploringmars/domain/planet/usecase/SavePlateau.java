@@ -23,6 +23,6 @@ public class SavePlateau implements SavePlateauInbound {
     }
 
     private void validatePlateauSize(Plateau plateau) {
-        if(plateau.getXPosition() < 0 || plateau.getYPosition() < 0) throw new BadRequestException("invalid size");
+        if(plateau.getXSize() < 0 || plateau.getYSize() < 0) throw new BadRequestException("invalid size");
     }
 }
