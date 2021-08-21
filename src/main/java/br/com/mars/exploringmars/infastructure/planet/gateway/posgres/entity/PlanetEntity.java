@@ -3,7 +3,6 @@ package br.com.mars.exploringmars.infastructure.planet.gateway.posgres.entity;
 import br.com.mars.exploringmars.domain.planet.model.Planet;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "planet")
 public class PlanetEntity {

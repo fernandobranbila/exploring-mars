@@ -1,6 +1,5 @@
 package br.com.mars.exploringmars.domain.planet.usecase;
 
-import br.com.mars.exploringmars.domain.exception.BadRequestException;
 import br.com.mars.exploringmars.domain.exception.UnprocessableEntityException;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.FindRoverByPlateauIdAndXPositionAndYPositionOutbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.SaveRoverOutbound;

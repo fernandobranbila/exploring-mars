@@ -1,8 +1,5 @@
 package br.com.mars.exploringmars.domain.planet.model;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 public class Rover {
 
     private final Long id;

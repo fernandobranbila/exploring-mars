@@ -2,7 +2,6 @@ package br.com.mars.exploringmars.application.planet.entrypoint.domain;
 
 import br.com.mars.exploringmars.domain.planet.model.Plateau;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class PlateauDtoRequest {
