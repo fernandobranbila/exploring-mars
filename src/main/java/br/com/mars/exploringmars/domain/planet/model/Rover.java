@@ -59,6 +59,12 @@ public class Rover {
             throw new UnprocessableEntityException("Impossible rover move execution");
     }
 
+    public void validateIfBelongsToPlateau(Long plateauId){
+        if (!this.plateauId.equals(plateauId)){
+            throw new UnprocessableEntityException("Rover doesn't belongs to this plateau");
+        }
+    }
+
     public FacingSide getFacingSideMovingToRight() {
         return this.findFacingSideMovingToRight();
     }

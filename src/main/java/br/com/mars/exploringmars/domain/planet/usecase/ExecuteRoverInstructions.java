@@ -27,21 +27,24 @@ public class ExecuteRoverInstructions implements MoveRoverInbound {
     @Override
     public Rover execute(Long planetId, Long plateauId, Long roverId, String roverInstructions) {
         validateInstructions(roverInstructions);
+        var rover = findRoverByIdProvider.execute(roverId);
+        rover.validateIfBelongsToPlateau(plateauId);
         var plateau = findPlateauByIdProvider.execute(plateauId);
         for (char ch : roverInstructions.toCharArray()) {
-            var rover = findRoverByIdProvider.execute(roverId);
+            Rover finalRover = rover; //workaround due to java lambda
             executeRoverInstructionsStrategyList.stream()
-                    .filter(strategy -> strategy.filterInstruction(ch, rover.getFacingSide()))
+                    .filter(strategy -> strategy.filterInstruction(ch, finalRover.getFacingSide()))
                     .findFirst()
                     .ifPresent(strategy ->
                             strategy.execute(
                                     plateau,
-                                    rover,
+                                    finalRover,
                                     ch
                             )
                     );
+            rover = findRoverByIdProvider.execute(roverId);
         }
-        return findRoverByIdProvider.execute(roverId);
+        return rover;
     }
 
     private void validateInstructions(String roverInstructions) {
