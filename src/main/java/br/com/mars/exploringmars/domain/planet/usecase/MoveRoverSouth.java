@@ -12,8 +12,11 @@ public class MoveRoverSouth implements ExecuteRoverInstructionsStrategy {
 
     private final UpdateRoverOutbound updateRoverOutbound;
 
-    public MoveRoverSouth(UpdateRoverOutbound updateRoverOutbound) {
+    private final CheckIfWillCrashOnOtherRover checkIfWillCrashOnOtherRover;
+
+    public MoveRoverSouth(UpdateRoverOutbound updateRoverOutbound, CheckIfWillCrashOnOtherRover checkIfWillCrashOnOtherRover) {
         this.updateRoverOutbound = updateRoverOutbound;
+        this.checkIfWillCrashOnOtherRover = checkIfWillCrashOnOtherRover;
     }
 
     @Override
@@ -26,6 +29,7 @@ public class MoveRoverSouth implements ExecuteRoverInstructionsStrategy {
         var roverExpectedXPosition = rover.getXPosition();
         var roverExpectedYPosition = rover.getYPosition() - 1;
         rover.checkIfValidMoveOnPlateau(plateau, roverExpectedXPosition, roverExpectedYPosition);
+        checkIfWillCrashOnOtherRover.execute(plateau, roverExpectedXPosition, roverExpectedYPosition);
         return updateRoverOutbound.execute(
                 new Rover(
                         rover.getId(),

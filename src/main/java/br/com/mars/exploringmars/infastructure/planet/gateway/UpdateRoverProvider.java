@@ -4,7 +4,9 @@ import br.com.mars.exploringmars.domain.planet.gateway.outbound.UpdateRoverOutbo
 import br.com.mars.exploringmars.domain.planet.model.Rover;
 import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.RoverRepository;
 import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.entity.RoverEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UpdateRoverProvider implements UpdateRoverOutbound {
 
     private final RoverRepository roverRepository;

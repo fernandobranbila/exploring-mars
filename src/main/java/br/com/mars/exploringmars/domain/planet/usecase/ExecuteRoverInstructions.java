@@ -41,7 +41,7 @@ public class ExecuteRoverInstructions implements MoveRoverInbound {
                             )
                     );
         }
-        return rover;
+        return findRoverByIdProvider.execute(roverId);
     }
 
     private void validateInstructions(String roverInstructions) {

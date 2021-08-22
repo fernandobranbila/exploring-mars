@@ -1,5 +1,6 @@
 package br.com.mars.exploringmars.domain.planet.usecase;
 
+import br.com.mars.exploringmars.domain.planet.gateway.outbound.FindRoverByPlateauIdAndXPositionAndYPositionOutbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.UpdateRoverOutbound;
 import br.com.mars.exploringmars.domain.planet.model.FacingSide;
 import br.com.mars.exploringmars.domain.planet.model.Plateau;
@@ -12,8 +13,11 @@ public class MoveRoverEast implements ExecuteRoverInstructionsStrategy {
 
     private final UpdateRoverOutbound updateRoverOutbound;
 
-    public MoveRoverEast(UpdateRoverOutbound updateRoverOutbound) {
+    private final CheckIfWillCrashOnOtherRover checkIfWillCrashOnOtherRover;
+
+    public MoveRoverEast(UpdateRoverOutbound updateRoverOutbound, CheckIfWillCrashOnOtherRover checkIfWillCrashOnOtherRover) {
         this.updateRoverOutbound = updateRoverOutbound;
+        this.checkIfWillCrashOnOtherRover = checkIfWillCrashOnOtherRover;
     }
 
     @Override
@@ -26,6 +30,7 @@ public class MoveRoverEast implements ExecuteRoverInstructionsStrategy {
         var roverExpectedXPosition = rover.getXPosition() + 1;
         var roverExpectedYPosition = rover.getYPosition();
         rover.checkIfValidMoveOnPlateau(plateau, roverExpectedXPosition, roverExpectedYPosition);
+        checkIfWillCrashOnOtherRover.execute(plateau, roverExpectedXPosition, roverExpectedYPosition);
         return updateRoverOutbound.execute(
                 new Rover(
                         rover.getId(),

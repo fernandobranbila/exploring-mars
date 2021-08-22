@@ -17,8 +17,18 @@ public class SaveRoverProvider implements SaveRoverOutbound {
 
     @Override
     public Rover execute(Long plateauId, Rover rover) {
-        return roverRepository.save(
+
+        var a = roverRepository.save(
                 RoverEntity.fromDomain(plateauId, rover)
-        ).toDomain();
+        );
+
+        var b = a.toDomain();
+
+        return b;
+
+
+/*        return roverRepository.save(
+                RoverEntity.fromDomain(plateauId, rover)
+        ).toDomain();*/
     }
 }
