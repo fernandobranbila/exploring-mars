@@ -37,6 +37,13 @@ class SaveRoverTest {
         var facingSide = FacingSide.E;
         var roverExpectedId = 1L;
         var rover = MockUtils.createRover(null, plateauId, roverName, xPosition, yPosition, facingSide);
+        var plateauName = "plateau Test";
+        var plateauXSize = 1;
+        var plateauYSize = 1;
+        var plateau = MockUtils.createPlateau(plateauId, planetId, plateauName, plateauXSize, plateauYSize);
+        when(findRoverByPlateauIdAndXPositionAndYPositionOutbound.execute(plateauId,xPosition,yPosition))
+                .thenReturn(null);
+        when(findPlateauByIdProvider.execute(plateauId)).thenReturn(plateau);
         when(findRoverByPlateauIdAndXPositionAndYPositionOutbound.execute(plateauId,xPosition,yPosition))
                 .thenReturn(null);
         when(saveRoverOutbound.execute(plateauId, rover)).thenReturn(
