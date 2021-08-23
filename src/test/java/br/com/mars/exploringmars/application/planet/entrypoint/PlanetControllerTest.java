@@ -3,10 +3,12 @@ package br.com.mars.exploringmars.application.planet.entrypoint;
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlanetDtoResponse;
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.PlateauDtoResponse;
 import br.com.mars.exploringmars.application.planet.entrypoint.domain.RoverDtoResponse;
+import br.com.mars.exploringmars.application.planet.entrypoint.domain.RoverInstructionsDtoRequest;
 import br.com.mars.exploringmars.application.utils.MockUtils;
 import br.com.mars.exploringmars.domain.planet.model.FacingSide;
 import br.com.mars.exploringmars.domain.planet.model.Planet;
 import br.com.mars.exploringmars.domain.planet.model.Plateau;
+import br.com.mars.exploringmars.domain.planet.model.Rover;
 import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.PlanetRepository;
 import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.PlateauRepository;
 import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.RoverRepository;
@@ -15,6 +17,7 @@ import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.entity.Pla
 import br.com.mars.exploringmars.infastructure.planet.gateway.posgres.entity.RoverEntity;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +27,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -246,5 +250,62 @@ class PlanetControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
+
+    @Test
+    public void doEveryPossibleRoverInstructionSuccessfully() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 5;
+        var plateauYSize = 5;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        planetEntity.getId(),
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+        var roverName = "rover test";
+        var roverFacingSide = FacingSide.E;
+
+        var roverEntity = roverRepository.save(
+                RoverEntity.fromDomain(
+                        plateauEntity.getId(),
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                roverXPosition,
+                                roverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("MRMRMRMLMLMLM");
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        var roverAfterInstructions = roverRepository.findById(roverEntity.getId());
+
+        assertEquals(roverAfterInstructions.get().getXPosition(), 1);
+        assertEquals(roverAfterInstructions.get().getYPosition(), 0);
+    }
+
+    
 
 }

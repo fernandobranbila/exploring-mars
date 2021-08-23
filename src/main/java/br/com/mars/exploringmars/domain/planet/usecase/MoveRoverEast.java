@@ -1,6 +1,5 @@
 package br.com.mars.exploringmars.domain.planet.usecase;
 
-import br.com.mars.exploringmars.domain.planet.gateway.outbound.FindRoverByPlateauIdAndXPositionAndYPositionOutbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.UpdateRoverOutbound;
 import br.com.mars.exploringmars.domain.planet.model.FacingSide;
 import br.com.mars.exploringmars.domain.planet.model.Plateau;

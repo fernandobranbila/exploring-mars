@@ -68,4 +68,28 @@ public class RoverEntity {
                 rover.getFacingSide()
         );
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getPlateauId() {
+        return plateauId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getXPosition() {
+        return xPosition;
+    }
+
+    public Integer getYPosition() {
+        return yPosition;
+    }
+
+    public FacingSide getFacingSide() {
+        return facingSide;
+    }
 }

@@ -2,7 +2,6 @@ package br.com.mars.exploringmars.domain.planet.usecase;
 
 import br.com.mars.exploringmars.domain.exception.UnprocessableEntityException;
 import br.com.mars.exploringmars.domain.planet.model.FacingSide;
-import br.com.mars.exploringmars.domain.planet.model.Rover;
 import br.com.mars.exploringmars.domain.planet.utils.MockUtils;
 import br.com.mars.exploringmars.infastructure.planet.gateway.FindPlateauByIdProvider;
 import br.com.mars.exploringmars.infastructure.planet.gateway.FindRoverByIdProvider;
@@ -13,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

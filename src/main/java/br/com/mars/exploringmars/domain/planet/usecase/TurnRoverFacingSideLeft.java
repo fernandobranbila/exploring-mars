@@ -5,6 +5,9 @@ import br.com.mars.exploringmars.domain.planet.model.FacingSide;
 import br.com.mars.exploringmars.domain.planet.model.Plateau;
 import br.com.mars.exploringmars.domain.planet.model.Rover;
 
+import javax.inject.Named;
+
+@Named
 public class TurnRoverFacingSideLeft implements ExecuteRoverInstructionsStrategy {
 
     private final UpdateRoverOutbound updateRoverOutbound;
