@@ -27,9 +27,10 @@ public class ExecuteRoverInstructions implements MoveRoverInbound {
     @Override
     public Rover execute(Long planetId, Long plateauId, Long roverId, String roverInstructions) {
         validateInstructions(roverInstructions);
+        var plateau = findPlateauByIdProvider.execute(plateauId);
+        plateau.validateIfBelongsToPlanet(planetId);
         var rover = findRoverByIdProvider.execute(roverId);
         rover.validateIfBelongsToPlateau(plateauId);
-        var plateau = findPlateauByIdProvider.execute(plateauId);
         for (char ch : roverInstructions.toCharArray()) {
             Rover finalRover = rover; //workaround due to java lambda
             executeRoverInstructionsStrategyList.stream()
