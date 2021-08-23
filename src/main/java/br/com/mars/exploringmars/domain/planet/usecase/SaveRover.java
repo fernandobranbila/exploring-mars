@@ -5,6 +5,7 @@ import br.com.mars.exploringmars.domain.planet.gateway.inbound.SaveRoverInbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.FindRoverByPlateauIdAndXPositionAndYPositionOutbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.SaveRoverOutbound;
 import br.com.mars.exploringmars.domain.planet.model.Rover;
+import br.com.mars.exploringmars.infastructure.planet.gateway.FindPlateauByIdProvider;
 
 import javax.inject.Named;
 
@@ -15,14 +16,19 @@ public class SaveRover implements SaveRoverInbound {
 
     private final FindRoverByPlateauIdAndXPositionAndYPositionOutbound findRoverByPlateauIdAndXPositionAndYPositionOutbound;
 
-    public SaveRover(SaveRoverOutbound saveRoverOutbound, FindRoverByPlateauIdAndXPositionAndYPositionOutbound findRoverByPlateauIdAndXPositionAndYPositionOutbound) {
+    private final FindPlateauByIdProvider findPlateauByIdProvider;
+
+    public SaveRover(SaveRoverOutbound saveRoverOutbound, FindRoverByPlateauIdAndXPositionAndYPositionOutbound findRoverByPlateauIdAndXPositionAndYPositionOutbound, FindPlateauByIdProvider findPlateauByIdProvider) {
         this.saveRoverOutbound = saveRoverOutbound;
         this.findRoverByPlateauIdAndXPositionAndYPositionOutbound = findRoverByPlateauIdAndXPositionAndYPositionOutbound;
+        this.findPlateauByIdProvider = findPlateauByIdProvider;
     }
 
     @Override
-    public Rover execute(Long plateauId, Rover rover) {
+    public Rover execute(Long planetId, Long plateauId, Rover rover) {
         checkValidPositioning(plateauId, rover);
+        var plateau = findPlateauByIdProvider.execute(plateauId);
+        plateau.validateIfBelongsToPlanet(planetId);
         return saveRoverOutbound.execute(plateauId, rover);
     }
 

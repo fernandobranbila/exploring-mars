@@ -56,7 +56,7 @@ public class PlanetController {
             @PathVariable Long plateauId
     ) {
         return RoverDtoResponse.fromDomain(
-                saveRoverInbound.execute(plateauId, roverDtoRequest.toDomain())
+                saveRoverInbound.execute(planetId, plateauId, roverDtoRequest.toDomain())
         );
     }
 

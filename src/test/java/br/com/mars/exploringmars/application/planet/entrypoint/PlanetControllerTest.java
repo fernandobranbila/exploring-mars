@@ -252,6 +252,50 @@ class PlanetControllerTest {
     }
 
     @Test
+    public void saveRoverFailDuePlateauDoesntBelongToPlanet() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 1;
+        var plateauYSize = 1;
+        var anotherPlanetId = 999L;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        anotherPlanetId,
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+
+        var roverName = "rover test";
+        var facingSide = FacingSide.E;
+        var roverDtoRequest = MockUtils.createRoverDtoRequest(
+                null,
+                null,
+                roverName,
+                roverXPosition,
+                roverYPosition,
+                facingSide
+        );
+
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverDtoRequest);
+        mockMvc.perform(MockMvcRequestBuilders.post("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
     public void doEveryPossibleRoverInstructionSuccessfully() throws Exception {
         var planetName = "planet test";
         var planetEntity = planetRepository.save(
@@ -410,7 +454,7 @@ class PlanetControllerTest {
     }
 
     @Test
-    public void failDuePlateauDoesntBelongsToPlanet() throws Exception {
+    public void failDuePlateauDoesntBelongsToPlanetWhileMovingRover() throws Exception {
         var planetName = "planet test";
         var planetEntity = planetRepository.save(
                 PlanetEntity.fromDomain(

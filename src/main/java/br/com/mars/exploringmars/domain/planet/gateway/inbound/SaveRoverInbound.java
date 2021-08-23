@@ -4,5 +4,5 @@ import br.com.mars.exploringmars.domain.planet.model.Rover;
 
 public interface SaveRoverInbound {
 
-    Rover execute(Long plateauId, Rover rover);
+    Rover execute(Long planetId, Long plateauId, Rover rover);
 }
