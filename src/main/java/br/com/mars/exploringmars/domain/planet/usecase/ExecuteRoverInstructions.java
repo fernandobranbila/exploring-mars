@@ -39,8 +39,7 @@ public class ExecuteRoverInstructions implements MoveRoverInbound {
                     .ifPresent(strategy ->
                             strategy.execute(
                                     plateau,
-                                    finalRover,
-                                    ch
+                                    finalRover
                             )
                     );
             rover = findRoverByIdProvider.execute(roverId);

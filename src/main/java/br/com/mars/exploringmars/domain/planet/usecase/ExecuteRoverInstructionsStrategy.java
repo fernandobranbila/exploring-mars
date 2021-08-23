@@ -8,6 +8,6 @@ public interface ExecuteRoverInstructionsStrategy {
 
     Boolean filterInstruction(char instruction, FacingSide roverFacingSide);
 
-    Rover execute(Plateau plateau, Rover rover, char instruction);
+    Rover execute(Plateau plateau, Rover rover);
 
 }

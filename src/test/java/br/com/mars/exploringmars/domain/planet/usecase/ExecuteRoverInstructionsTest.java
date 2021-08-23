@@ -2,6 +2,7 @@ package br.com.mars.exploringmars.domain.planet.usecase;
 
 import br.com.mars.exploringmars.domain.exception.UnprocessableEntityException;
 import br.com.mars.exploringmars.domain.planet.model.FacingSide;
+import br.com.mars.exploringmars.domain.planet.model.Rover;
 import br.com.mars.exploringmars.domain.planet.utils.MockUtils;
 import br.com.mars.exploringmars.infastructure.planet.gateway.FindPlateauByIdProvider;
 import br.com.mars.exploringmars.infastructure.planet.gateway.FindRoverByIdProvider;
@@ -19,13 +20,13 @@ import static org.mockito.Mockito.when;
 class ExecuteRoverInstructionsTest {
 
     @Mock
-    private List<ExecuteRoverInstructionsStrategy> executeRoverInstructionsStrategyList;
-
-    @Mock
     private FindRoverByIdProvider findRoverByIdProvider;
 
     @Mock
     private FindPlateauByIdProvider findPlateauByIdProvider;
+
+    @Mock
+    private List<ExecuteRoverInstructionsStrategy> executeRoverInstructionsStrategy;
 
     @Test
     public void invalidRoverInstructions() {
@@ -33,7 +34,7 @@ class ExecuteRoverInstructionsTest {
         var plateauId = 1L;
         var roverId = 1L;
         var roverInstructions = "MMMRRRLLLU";
-        var target = new ExecuteRoverInstructions(executeRoverInstructionsStrategyList, findRoverByIdProvider, findPlateauByIdProvider);
+        var target = new ExecuteRoverInstructions(executeRoverInstructionsStrategy, findRoverByIdProvider, findPlateauByIdProvider);
         assertThrows(
                 UnprocessableEntityException.class,
                 () -> target.execute(planetId, plateauId, roverId, roverInstructions)
@@ -51,9 +52,14 @@ class ExecuteRoverInstructionsTest {
         var roverFacingSide = FacingSide.E;
         var roverInstructions = "MMMRRRLLL";
         var nonExpectedPlateauId = 999L;
-        var findRoverByIdReturn = MockUtils.createRover(roverId, nonExpectedPlateauId, roverName, roverXPosition, roverYPosition, roverFacingSide);
-        var target = new ExecuteRoverInstructions(executeRoverInstructionsStrategyList, findRoverByIdProvider, findPlateauByIdProvider);
-        when(findRoverByIdProvider.execute(roverId)).thenReturn(findRoverByIdReturn);
+        var plateauName = "plateau test";
+        var plateauXSize = 1;
+        var plateauYSize = 1;
+        var plateau = MockUtils.createPlateau(plateauId, planetId, plateauName, plateauXSize, plateauYSize);
+        when(findPlateauByIdProvider.execute(plateauId)).thenReturn(plateau);
+        var rover = MockUtils.createRover(roverId, nonExpectedPlateauId, roverName, roverXPosition, roverYPosition, roverFacingSide);
+        when(findRoverByIdProvider.execute(roverId)).thenReturn(rover);
+        var target = new ExecuteRoverInstructions(executeRoverInstructionsStrategy, findRoverByIdProvider, findPlateauByIdProvider);
         assertThrows(
                 UnprocessableEntityException.class,
                 () -> target.execute(planetId, plateauId, roverId, roverInstructions)
@@ -72,10 +78,11 @@ class ExecuteRoverInstructionsTest {
         var plateauYSize = 1;
         var plateau = MockUtils.createPlateau(plateauId, nonExpectedPlanetId, plateauName, plateauXSize, plateauYSize);
         when(findPlateauByIdProvider.execute(plateauId)).thenReturn(plateau);
-        var target = new ExecuteRoverInstructions(executeRoverInstructionsStrategyList, findRoverByIdProvider, findPlateauByIdProvider);
+        var target = new ExecuteRoverInstructions(executeRoverInstructionsStrategy, findRoverByIdProvider, findPlateauByIdProvider);
         assertThrows(
                 UnprocessableEntityException.class,
                 () -> target.execute(planetId, plateauId, roverId, roverInstructions)
         );
     }
+
 }

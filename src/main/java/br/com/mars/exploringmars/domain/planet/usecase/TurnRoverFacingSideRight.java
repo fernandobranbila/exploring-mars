@@ -22,7 +22,7 @@ public class TurnRoverFacingSideRight implements ExecuteRoverInstructionsStrateg
     }
 
     @Override
-    public Rover execute(Plateau plateau, Rover rover, char instruction) {
+    public Rover execute(Plateau plateau, Rover rover) {
         return updateRoverOutbound.execute(
                 new Rover(
                         rover.getId(),

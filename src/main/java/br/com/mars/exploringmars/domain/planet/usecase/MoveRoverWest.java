@@ -25,7 +25,7 @@ public class MoveRoverWest implements ExecuteRoverInstructionsStrategy {
     }
 
     @Override
-    public Rover execute(Plateau plateau, Rover rover, char instruction) {
+    public Rover execute(Plateau plateau, Rover rover) {
         var roverExpectedXPosition = rover.getXPosition() - 1;
         var roverExpectedYPosition = rover.getYPosition();
         rover.checkIfValidMoveOnPlateau(plateau, roverExpectedXPosition, roverExpectedYPosition);
