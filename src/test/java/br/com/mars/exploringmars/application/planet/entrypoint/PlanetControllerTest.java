@@ -306,6 +306,276 @@ class PlanetControllerTest {
         assertEquals(roverAfterInstructions.get().getYPosition(), 0);
     }
 
-    
+    @Test
+    public void failDueInvalidInstructions() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 5;
+        var plateauYSize = 5;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        planetEntity.getId(),
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+        var roverName = "rover test";
+        var roverFacingSide = FacingSide.E;
+
+        var roverEntity = roverRepository.save(
+                RoverEntity.fromDomain(
+                        plateauEntity.getId(),
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                roverXPosition,
+                                roverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("MRMRMRMLMLMLMX");
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+
+    }
+
+    @Test
+    public void failDueRoverDoesntBelongsToRover() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 5;
+        var plateauYSize = 5;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        planetEntity.getId(),
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+        var roverName = "rover test";
+        var roverFacingSide = FacingSide.E;
+        var anotherPlateauId = 999L;
+
+        var roverEntity = roverRepository.save(
+                RoverEntity.fromDomain(
+                        anotherPlateauId,
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                roverXPosition,
+                                roverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("MRMRMRMLMLMLM");
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+
+    }
+
+    @Test
+    public void failDuePlateauDoesntBelongsToPlanet() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 5;
+        var plateauYSize = 5;
+        var anotherPlanetId = 999L;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        anotherPlanetId,
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+        var roverName = "rover test";
+        var roverFacingSide = FacingSide.E;
+
+        var roverEntity = roverRepository.save(
+                RoverEntity.fromDomain(
+                        plateauEntity.getId(),
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                roverXPosition,
+                                roverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("MRMRMRMLMLMLM");
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void failDueInvalidPositionMoveOnPlateau() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 1;
+        var plateauYSize = 1;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        planetEntity.getId(),
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+        var roverName = "rover test";
+        var roverFacingSide = FacingSide.E;
+
+        var roverEntity = roverRepository.save(
+                RoverEntity.fromDomain(
+                        plateauEntity.getId(),
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                roverXPosition,
+                                roverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("RMM");
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void failDuePossibleRoverCrash() throws Exception {
+        var planetName = "planet test";
+        var planetEntity = planetRepository.save(
+                PlanetEntity.fromDomain(
+                        new Planet(null, planetName)
+                )
+        );
+
+        var plateauName = "plateau test";
+        var plateauXSize = 1;
+        var plateauYSize = 1;
+
+        var plateauEntity = plateauRepository.save(
+                PlateauEntity.fromDomain(
+                        planetEntity.getId(),
+                        new Plateau(null, null, plateauName, plateauXSize, plateauYSize)
+                )
+        );
+
+        var roverXPosition = 1;
+        var roverYPosition = 1;
+        var roverName = "rover test";
+        var roverFacingSide = FacingSide.E;
+
+        var roverEntity = roverRepository.save(
+                RoverEntity.fromDomain(
+                        plateauEntity.getId(),
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                roverXPosition,
+                                roverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var alreadyPlacedRoverXPosition = 2;
+        var alreadyPlacedRoverYPosition = 2;
+
+        var alreadyPlacedRover = roverRepository.save(
+                RoverEntity.fromDomain(
+                        plateauEntity.getId(),
+                        new Rover(
+                                null,
+                                null,
+                                roverName,
+                                alreadyPlacedRoverXPosition,
+                                alreadyPlacedRoverYPosition,
+                                roverFacingSide
+                        )
+                )
+        );
+
+        var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("MLM");
+        var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+                .content(roverDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
 
 }
