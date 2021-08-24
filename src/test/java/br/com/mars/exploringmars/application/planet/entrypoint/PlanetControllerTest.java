@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -148,6 +149,7 @@ class PlanetControllerTest {
     }
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void savePlateauFailDueInvalidPlanet() throws Exception {
         Long id = null;
         var name = "test";
@@ -362,17 +364,17 @@ class PlanetControllerTest {
         var roverInstructionsDtoRequest = new RoverInstructionsDtoRequest("MRMRMRMLMLMLM");
         var roverDtoRequestAsString = objectMapper.writeValueAsString(roverInstructionsDtoRequest);
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch("/planets/" + planetEntity.getId() + "/plateaus/" + plateauEntity.getId() + "/rovers/" + roverEntity.getId() + "/positions")
                 .content(roverDtoRequestAsString)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        var result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoverDtoResponse.class);
 
-        var roverAfterInstructions = roverRepository.findById(roverEntity.getId());
-
-        assertEquals(roverAfterInstructions.get().getXPosition(), 1);
-        assertEquals(roverAfterInstructions.get().getYPosition(), 0);
+        assertEquals(result.getXPosition(), 1);
+        assertEquals(result.getYPosition(), 0);
     }
 
     @Test

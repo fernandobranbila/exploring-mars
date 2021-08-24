@@ -61,14 +61,14 @@ public class PlanetController {
     }
 
     @PatchMapping(value = "/{planetId}/plateaus/{plateauId}/rovers/{roverId}/positions")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void moveRover(
+    @ResponseStatus(HttpStatus.OK)
+    public RoverDtoResponse moveRover(
             @PathVariable Long planetId,
             @PathVariable Long plateauId,
             @PathVariable Long roverId,
             @Valid @RequestBody RoverInstructionsDtoRequest roverInstructionsDtoRequest
     ) {
-        RoverDtoResponse.fromDomain(
+        return RoverDtoResponse.fromDomain(
                 moveRoverInbound.execute(planetId, plateauId, roverId, roverInstructionsDtoRequest.getInstructions())
         );
     }

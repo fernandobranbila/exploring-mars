@@ -27,7 +27,7 @@ class SavePlanetTest {
         var name = "test";
         var expectedId = 1L;
         var planet = MockUtils.createPlanet(expectedId, name);
-        var expectedResult = new Planet(1L, planet.getName());
+        var expectedResult = new Planet(expectedId, planet.getName());
         when(findPlanetByNameOutbound.execute(name)).thenReturn(null);
         when(savePlanetOutbound.execute(planet)).thenReturn(expectedResult);
         var target = new SavePlanet(savePlanetOutbound, findPlanetByNameOutbound);

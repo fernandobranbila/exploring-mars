@@ -4,6 +4,7 @@ import br.com.mars.exploringmars.domain.exception.BadRequestException;
 import br.com.mars.exploringmars.domain.exception.NotFoundException;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.FindPlanetByIdOutbound;
 import br.com.mars.exploringmars.domain.planet.gateway.outbound.SavePlateauOutbound;
+import br.com.mars.exploringmars.domain.planet.model.Planet;
 import br.com.mars.exploringmars.domain.planet.model.Plateau;
 import br.com.mars.exploringmars.domain.planet.utils.MockUtils;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,8 @@ class SavePlateauTest {
         var plateauName = "plateau test";
         var xSize = 1;
         var ySize = 1;
+        var planetName = "planet test";
+        var planet = MockUtils.createPlanet(planetId, planetName);
 
         var plateau = MockUtils.createPlateau(
                 plateauId,
@@ -39,6 +42,8 @@ class SavePlateauTest {
                 xSize,
                 ySize
         );
+
+        when(findPlanetByIdOutbound.execute(planetId)).thenReturn(planet);
 
         when(savePlateauOutbound.execute(planetId, plateau)).thenReturn(
                 new Plateau(
