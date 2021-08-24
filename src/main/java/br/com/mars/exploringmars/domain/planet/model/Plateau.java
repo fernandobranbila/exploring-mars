@@ -1,5 +1,6 @@
 package br.com.mars.exploringmars.domain.planet.model;
 
+import br.com.mars.exploringmars.domain.exception.BadRequestException;
 import br.com.mars.exploringmars.domain.exception.UnprocessableEntityException;
 
 public class Plateau {
@@ -26,6 +27,10 @@ public class Plateau {
         if (!this.planetId.equals(planetId)) {
             throw new UnprocessableEntityException("Plateau doesn't belongs to this planet");
         }
+    }
+
+    public void validatePlateauSize(){
+        if(this.xSize < 0 || this.ySize < 0) throw new BadRequestException("invalid size");
     }
 
     public Long getId() {

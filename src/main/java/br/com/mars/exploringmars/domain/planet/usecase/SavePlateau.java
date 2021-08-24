@@ -18,11 +18,8 @@ public class SavePlateau implements SavePlateauInbound {
 
     @Override
     public Plateau execute(Long planetId, Plateau plateau) {
-        validatePlateauSize(plateau);
+        plateau.validatePlateauSize();
         return savePlateauOutbound.execute(planetId,plateau);
     }
 
-    private void validatePlateauSize(Plateau plateau) {
-        if(plateau.getXSize() < 0 || plateau.getYSize() < 0) throw new BadRequestException("invalid size");
-    }
 }
