@@ -10,16 +10,16 @@ public class PlateauDtoResponse {
 
     private String name;
 
-    private Integer xPosition;
+    private Integer xSize;
 
-    private Integer yPosition;
+    private Integer ySize;
 
-    public PlateauDtoResponse(Long id, Long planetId, String name, Integer xPosition, Integer yPosition) {
+    public PlateauDtoResponse(Long id, Long planetId, String name, Integer xSize, Integer ySize) {
         this.id = id;
         this.planetId = planetId;
         this.name = name;
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
+        this.xSize = xSize;
+        this.ySize = ySize;
     }
 
     public PlateauDtoResponse() {
@@ -39,9 +39,9 @@ public class PlateauDtoResponse {
 
     public String getName() { return name; }
 
-    public Integer getXPosition() { return xPosition; }
+    public Integer getXPosition() { return xSize; }
 
-    public Integer getYPosition() { return yPosition; }
+    public Integer getYPosition() { return ySize; }
 
     public Long getPlanetId() { return planetId; }
 
@@ -51,7 +51,7 @@ public class PlateauDtoResponse {
 
     public void setName(String name) { this.name = name; }
 
-    public void setXPosition(Integer xPosition) { this.xPosition = xPosition; }
+    public void setXPosition(Integer xPosition) { this.xSize = xPosition; }
 
-    public void setYPosition(Integer yPosition) { this.yPosition = yPosition; }
+    public void setYPosition(Integer yPosition) { this.ySize = yPosition; }
 }
