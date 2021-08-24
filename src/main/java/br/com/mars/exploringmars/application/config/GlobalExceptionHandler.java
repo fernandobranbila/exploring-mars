@@ -2,6 +2,7 @@ package br.com.mars.exploringmars.application.config;
 
 import br.com.mars.exploringmars.domain.exception.BadRequestException;
 import br.com.mars.exploringmars.domain.exception.GenericCodeException;
+import br.com.mars.exploringmars.domain.exception.NotFoundException;
 import br.com.mars.exploringmars.domain.exception.UnprocessableEntityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +29,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity badRequestException(GenericCodeException e){
         return new ResponseEntity(e.getCode(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity notFoundException(GenericCodeException e){
+        return new ResponseEntity(e.getCode(), HttpStatus.NOT_FOUND);
     }
 }
