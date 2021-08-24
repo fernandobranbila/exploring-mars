@@ -126,15 +126,40 @@ class PlanetControllerTest {
     public void savePlateauFailDueInvalidPosition() throws Exception {
         Long id = null;
         var name = "test";
-        var xPosition = 1;
-        var yPosition = -1;
+        var xSize = 1;
+        var ySize = -1;
         var planetEntityId = 1L;
         var plateauDtoRequest = MockUtils.createPlateauDtoRequest(
                 id,
                 planetEntityId,
                 name,
-                xPosition,
-                yPosition
+                xSize,
+                ySize
+        );
+
+        var plateauDtoRequestAsString = objectMapper.writeValueAsString(plateauDtoRequest);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/planets/" + planetEntityId + "/plateaus")
+                .content(plateauDtoRequestAsString)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void savePlateauFailDueInvalidPlanet() throws Exception {
+        Long id = null;
+        var name = "test";
+        var xSize = 1;
+        var ySize = 1;
+        var planetEntityId = 1L;
+        var plateauDtoRequest = MockUtils.createPlateauDtoRequest(
+                id,
+                planetEntityId,
+                name,
+                xSize,
+                ySize
         );
 
         var plateauDtoRequestAsString = objectMapper.writeValueAsString(plateauDtoRequest);
